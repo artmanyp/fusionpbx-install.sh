@@ -43,7 +43,7 @@ apt install -y sqlite3 unzip
 CWD=$(pwd)
 
 #install the following dependencies if the switch version is greater than 1.10.0
-if [ ."$switch_branch" = ."master" ] || [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+if [ ."$switch_branch" = ."master" ] then
 
 	# libks build-requirements
 	apt install -y cmake uuid-dev
@@ -117,19 +117,20 @@ fi
 #check for stable release
 if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	echo "Using version $switch_version"
-	#1.8 and older
-	if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
-		wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
-		unzip freeswitch-$switch_version.zip
+
+	# Get the source code using git
+	if [ ."$switch_version" == ."1.11" ] then
+	    git clone https://github.com/signalwire/freeswitch.git freeswitch-$switch_version
+
+		# Change the working directory
 		cd /usr/src/freeswitch-$switch_version
 
-		# Reset repo just-in-case we are rebuilding
-		#git reset --hard HEAD && git clean -fdx
-	fi
+		# Get the stable branch
+		git checkout v$switch_version
+	end
 
-	#1.10.0 and newer
-	if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
-		# Get the source code using git
+	# Get the source code using git
+	if [ ."$switch_version" == ."1.10.12" ] then
 		git clone https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
 
 		# Change the working directory
@@ -137,26 +138,26 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 
 		# Get the stable branch
 		git checkout $switch_version
+	end
 
-		# Reset repo just-in-case we are rebuilding
-		#git reset --hard origin/master && git clean -fdx
+	# Reset repo just-in-case we are rebuilding
+	#git reset --hard origin/master && git clean -fdx
 
-		#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
-		#unzip freeswitch-$switch_version.-release.zip
-		#mv freeswitch-$switch_version.-release freeswitch-$switch_version
+	#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+	#unzip freeswitch-$switch_version.-release.zip
+	#mv freeswitch-$switch_version.-release freeswitch-$switch_version
 
-		# bootstrap is needed if using git
-		./bootstrap.sh -j
+	# bootstrap is needed if using git
+	./bootstrap.sh -j
 
-		#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
-		#patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/switch_rtp.diff
+	#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
+	#patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/switch_rtp.diff
 
-		#apply pull request 2300 to Fix session deadlock that results in stale or stuck calls. https://github.com/signalwire/freeswitch/pull/2300
-		#patch -d /usr/src/freeswitch-$switch_version/src -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/pull_2300.diff
+	#apply pull request 2300 to Fix session deadlock that results in stale or stuck calls. https://github.com/signalwire/freeswitch/pull/2300
+	#patch -d /usr/src/freeswitch-$switch_version/src -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/pull_2300.diff
 
-		#apply mod_pgsql patch
-		#patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
-	fi
+	#apply mod_pgsql patch
+	#patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
 fi
 
 # enable required modules
