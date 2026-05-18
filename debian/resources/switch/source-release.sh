@@ -43,7 +43,7 @@ apt install -y sqlite3 unzip
 CWD=$(pwd)
 
 #install the following dependencies if the switch version is greater than 1.10.0
-if [ ."$switch_branch" = ."master" ]; then
+if [ ."$switch_branch" = ."stable" || ."$switch_branch" = ."master" ]; then
 
 	# libks build-requirements
 	apt install -y cmake uuid-dev
@@ -119,7 +119,7 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	echo "Using version $switch_version"
 
 	# Get the source code using git
-	if [ ."$switch_version" == ."1.11" ]; then
+	if [ ."$switch_version" = ."1.11" ]; then
 	    git clone https://github.com/signalwire/freeswitch.git freeswitch-$switch_version
 
 		# Change the working directory
@@ -130,7 +130,7 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	fi
 
 	# Get the source code using git
-	if [ ."$switch_version" == ."1.10.12" ]; then
+	if [ ."$switch_version" = ."1.10.12" ]; then
 		git clone https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
 
 		# Change the working directory
