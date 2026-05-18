@@ -119,7 +119,7 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	echo "Using version $switch_version"
 
 	# Get the source code using git
-	if [ ."$switch_version" == ."1.11" ] then
+	if [ ."$switch_version" == ."1.11" ]; then
 	    git clone https://github.com/signalwire/freeswitch.git freeswitch-$switch_version
 
 		# Change the working directory
@@ -130,7 +130,7 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	end
 
 	# Get the source code using git
-	if [ ."$switch_version" == ."1.10.12" ] then
+	if [ ."$switch_version" == ."1.10.12" ]; then
 		git clone https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
 
 		# Change the working directory
