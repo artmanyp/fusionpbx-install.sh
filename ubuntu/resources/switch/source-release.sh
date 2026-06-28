@@ -59,7 +59,7 @@ fi
 
 echo "Using version $switch_version"
 cd /usr/src
-#git clone --depth 1 -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+#git clone --depth 1 -b v1.8 https://github.com/signalwire/freeswitch.git /usr/src/freeswitch
 #1.8 and older
 if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
 	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
