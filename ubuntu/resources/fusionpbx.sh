@@ -31,5 +31,5 @@ mkdir -p /var/cache/fusionpbx
 chown -R www-data:www-data /var/cache/fusionpbx
 
 #get the source code
-git clone $branch https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
+git clone --depth 1 $branch https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 chown -R www-data:www-data /var/www/fusionpbx

@@ -10,7 +10,7 @@ echo "deb http://files.freeswitch.org/repo/deb/debian-unstable/ jessie main" > /
 apt-get update && apt-get upgrade -y
 apt-get install -y freeswitch-video-deps-most
 
-git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+git clone --depth 1 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 cd /usr/src/freeswitch
 
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'

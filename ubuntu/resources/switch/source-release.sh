@@ -24,7 +24,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 
 	# libks
 	cd /usr/src
-	git clone https://github.com/signalwire/libks.git libks
+	git clone --depth 1 https://github.com/signalwire/libks.git libks
 	cd libks
 	cmake .
 	make -j $(getconf _NPROCESSORS_ONLN)
@@ -35,7 +35,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
  
 	# sofia-sip
 	cd /usr/src
-	#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
+	#git clone --depth 1 https://github.com/freeswitch/sofia-sip.git sofia-sip
 	wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v$sofia_version.zip
 	unzip v$sofia_version.zip
 	cd sofia-sip-$sofia_version
@@ -46,7 +46,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	
 	# spandsp
 	cd /usr/src
-	git clone https://github.com/freeswitch/spandsp.git spandsp
+	git clone --depth 1 https://github.com/freeswitch/spandsp.git spandsp
 	cd spandsp
 	git reset --hard 0d2e6ac65e0e8f53d652665a743015a88bf048d4
 	/usr/bin/sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' /usr/src/spandsp/configure.ac
@@ -59,7 +59,7 @@ fi
 
 echo "Using version $switch_version"
 cd /usr/src
-#git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+#git clone --depth 1 -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #1.8 and older
 if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
 	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
@@ -70,7 +70,7 @@ fi
 #1.10.0 and newer
 if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	#use git to get the source code and checkout the current branch
-	git clone -b $switch_version --single-branch https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
+	git clone --depth 1 -b $switch_version --single-branch https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
 	git checkout $switch_version
 
 	#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
